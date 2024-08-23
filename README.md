@@ -8,7 +8,8 @@ também um script para iniciar a db , com os arquivos bson , ou outra forma
 irei melhorar  esse projeto com o tempo.
 
 ## como usar
-1  - > npm install 
-2  - > node index.js
-3- - > abra localhost:4444 no browser
+
+1  - > npm install  <br>
+2  - > node index.js <br>
+3- - > abra localhost:4444 no browser <br>
  
