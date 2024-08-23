@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: rgb(255, 255, 255);
+        color: white; 
+    }
+    input{
+        background-color: #2a2a2a;
+        color: white;
+        border: 1px solid #ddd;
+        border-radius: 10px; 
+        padding: 5px 10px; 
+    }
+    .wrapper {
+        display: flex;
+        margin: 10px auto;
+        max-width: 1200px;
+        background: #ffffff    ;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.8); 
+        border-radius: 15px;
+
+    }
+
+    h4 {
+        letter-spacing: -1px;
+        font-weight: 400;
+    }
+
+    .img {
+        width: 70px;
+        height: 70px;
+        border-radius: 6px;
+        object-fit: cover;
+    }
+
+    #img-section p, #deactivate p {
+        font-size: 12px;
+        color: #ccc;
+        margin-bottom: 10px;
+        text-align: justify;
+    }
+
+    #img-section b, #img-section button, #deactivate b {
+        font-size: 14px; 
+    }
+
+    label {
+        margin-bottom: 0;
+        font-size: 14px;
+        font-weight: 500;
+        color: #535353;
+        padding-left: 3px;
+    }
+
+    .form-control {
+        border-radius: 10px;
+        background-color: #ffffff;
+        color: rgb(20, 20, 20);
+        border: none;
+        border-radius: 10px; 
+        padding: 5px 10px; 
+        box-shadow: 0px 0px 5px #000;
+    }
+
+    input[placeholder] {
+        font-weight: 500;
+    }
+
+    .form-control:focus {
+        box-shadow: none;
+        background-color: #ffffff;
+
+        border: 1.5px solid #0779e4;
+    }
+
+    select {
+        display: block;
+        width: 100%;
+        border: 1px solid #ddd;
+        border-radius: 10px;
+        height: 40px;
+        padding: 5px 10px;
+        background-color: #ffffff !important ;
+        color: #202020 !important ;
+    }
+
+    select:focus {
+        outline: none;
+    }
+
+    .button {
+        background-color: #ffffff;
+        color: #0779e4;
+    }
+
+    .button:hover {
+        background-color: #0779e4;
+        color: #fff;
+    }
+
+    .btn-primary {
+        background-color: #0779e4;
+    }
+
+    .danger {
+        background-color: #ffffff;
+        color: #e20404;
+        border: 1px solid #ddd;
+    }
+
+    .danger:hover {
+        background-color: #e20404;
+        color: #fff;
+    }
+
+    @media(max-width:576px) {
+        .wrapper {
+            padding: 25px 20px;
+        }
+
+        #deactivate {
+            line-height: 18px;
+        }
+    }
+    .sidebar {
+
+    width: 20%;
+    background: #173B45;
+    padding: 15px;
+    border-radius: 10px;
+    color: #fff;
+    margin-right: 20px;
+    box-shadow: 0px 0px 10px #000000;
+}
+
+.sidebar h4 {
+    font-size: 18px;
+    margin-bottom: 15px;
+    transition: 0.5s ease-in-out;
+}
+.sidebar h4:hover {
+    font-size: 20px;
+}
+.sidebar a {
+    display: block;
+    color: #fff;
+    padding: 10px;
+    text-decoration: none;
+    border-radius: 5px;
+    margin-bottom: 10px;
+}
+
+.sidebar a:hover {
+    background-color: #575757; /* Cor de fundo ao passar o mouse */
+}
+
+.content {
+    flex: 1;
+    color: #fff;
+}
+
+.content h1 {
+    margin-bottom: 20px;
+}
+
+.content p {
+    font-size: 16px;
+}
+</style>
+</head>
+<body>
+    <div id="app" class="wrapper mt-sm-5">
+        <div class="sidebar">
+            <h4>Menu</h4>
+            <hr style="background-color: white;">
+            <h4 v-on:click="options=1">Detalhes Pessoais</h4>
+            <h4 v-on:click="options=2">Segurança</h4>
+            <h4 v-on:click="options=3">Compras Recentes</h4>
+        </div>
+        <div class="content">
+            <div v-if="options==1"> 
+                <div class="d-flex align-items-start py-3 border-bottom">
+                    <img src="https://static.vecteezy.com/system/resources/thumbnails/000/439/863/small/Basic_Ui__28186_29.jpg" class="img" alt="">
+                    <div class="pl-sm-4 pl-2" id="img-section">
+                        <button class="btn button border"><b>Upload</b></button>
+                    </div>
+                </div>
+                <div class="py-2">
+                    <div class="row py-2">
+                        <div class="col-md-6">
+                            <label for="firstname">Nome</label>
+                            <input value="{{userdata.name}}" type="text" id="name" class="form-control light" placeholder="Steve">
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="lastname">Sobrenome</label>
+                            <input id="surname" type="text" class="form-control" placeholder="Smith">
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-md-6">
+                            <label for="email">Email</label>
+                            <input id="mail" type="text" class="form-control" placeholder="steve_@email.com">
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="phone">Telefone</label>
+                            <input  id="tel" type="tel" class="form-control" placeholder="119XXXXYYYY">
+                        </div>
+                    </div>
+                    <div class="row py-2">
+                        <div class="col-md-6">
+                            <label for="country">País</label><span style="color: red !important; display: inline; float: none;">*</span>      
+                            <select id="country" name="country" class="form-control">
+                                <option value="Brasil">Brasil</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="estado">Estado</label><span style="color: red !important; display: inline; float: none;">*</span>      
+                            <select id="Estado" name="country" class="form-control">
+                                <option value="AC">Acre</option>
+                                <option value="AL">Alagoas</option>
+                                <option value="AP">Amapá</option>
+                                <option value="AM">Amazonas</option>
+                                <option value="BA">Bahia</option>
+                                <option value="CE">Ceará</option>
+                                <option value="DF">Distrito Federal</option>
+                                <option value="ES">Espírito Santo</option>
+                                <option value="GO">Goiás</option>
+                                <option value="MA">Maranhão</option>
+                                <option value="MT">Mato Grosso</option>
+                                <option value="MS">Mato Grosso do Sul</option>
+                                <option value="MG">Minas Gerais</option>
+                                <option value="PA">Pará</option>
+                                <option value="PB">Paraíba</option>
+                                <option value="PR">Paraná</option>
+                                <option value="PE">Pernambuco</option>
+                                <option value="PI">Piauí</option>
+                                <option value="RJ">Rio de Janeiro</option>
+                                <option value="RN">Rio Grande do Norte</option>
+                                <option value="RS">Rio Grande do Sul</option>
+                                <option value="RO">Rondônia</option>
+                                <option value="RR">Roraima</option>
+                                <option value="SC">Santa Catarina</option>
+                                <option value="SP">São Paulo</option>
+                                <option value="SE">Sergipe</option>
+                                <option value="TO">Tocantins</option>
+                                <option value="EX">Estrangeiro</option>
+                            </select>
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="cep">cep</label><span style="color: red !important; display: inline; float: none;">*</span>      
+                            <input id="cep"  class="form-control" placeholder="00000-000">
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="cpf">Cpf</label><span style="color: red !important; display: inline; float: none;">*</span>      
+                            <input id="cpf"  class="form-control" placeholder="000-000-000-00">
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="rua">Rua</label><span style="color: red !important; display: inline; float: none;">*</span>      
+                            <input id="rua" type="text" class="form-control" placeholder="Rua">
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="Numero">Numero</label><span style="color: red !important; display: inline; float: none;">*</span>      
+                            <input id="Numero"  class="form-control" placeholder="1232">
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="bairro">bairro</label><span style="color: red !important; display: inline; float: none;">*</span>      
+                            <input id="bairro" type="text" class="form-control" placeholder="bairro">
+                        </div>
+                        <div class="col-md-6 pt-md-0 pt-3">
+                            <label for="Cidade">Cidade</label><span style="color: red !important; display: inline; float: none;">*</span>      
+                            <input id="Cidade" type="text" class="form-control" placeholder="cidade">
+                        </div>
+                    </div>
+                    <div class="py-3 pb-4 border-bottom">
+                        <button  v-on:click="UpdateProfile" class="btn btn-primary mr-3">Salvar</button>
+                        <button class="btn border button">Cancelar</button>
+                    </div>
+                    <div class="d-sm-flex align-items-center pt-3" id="deactivate">
+                        <div>
+                            <p>Desativar conta</p>
+                        </div>
+                        <div class="ml-auto">
+                            <button class="btn danger">desativar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="options==2" style="text-align: center;">
+                <label for="senha1">Senha antiga</label>
+                <input id="senha1" type="text" style="margin-left:20%;margin-right: 20%;width: 60%;" class="form-control" placeholder="Senha antiga">
+                
+                <label for="senhanova" style="margin-top: 2.5%;">Senha Nova</label>
+                <input id="senhanova" type="text" style="color: #2a2a2a; margin-left:20%;margin-right: 20%;width: 60%;" class="form-control" placeholder="Senha nova">
+                <button id="updateSenha" style="background-color: #fff; color: #2a2a2a; margin-top: 2.5%;" class="btn danger">Mudar senha</button>
+            
+            
+            </div>
+            
+        </div>
+    </div>
+</body>
+<script>
+    Vue.config.devtools = true
+   new Vue({
+       el: "#app",
+       data:{
+           userdata:{
+           },
+           logged:false,
+           options:1
+       },
+       mounted () {
+               if (this.hasCookie("tkn")) {
+                   this.logged = true;
+               }else{
+                document.body.innerHTML= "403"
+               }   
+               axios.post('/usrData', {id:this.hasCookie("tkn").toString() }).then(res => {
+                    /*
+                    name: [document.getElementById("name").value.trim(), document.getElementById("surname").value.trim()],
+                    country: document.getElementById("country").value.trim(),
+                    uf: document.getElementById("Estado").value.trim(),
+                    cep: document.getElementById("cep").value.trim(),
+                    cpf: document.getElementById("cpf").value.trim(),
+                    rua: document.getElementById("rua").value.trim(),
+                    num: document.getElementById("Numero").value.trim(),
+                    bairro: document.getElementById("bairro").value.trim(),
+                    city: document.getElementById("Cidade").value.trim()*/
+                    usr=res.data
+                    if(res.data == null){
+                        return
+                    }
+                    document.getElementById("name").value=usr.name[0]
+                    document.getElementById("surname").value=usr.name[1]
+                    document.getElementById("mail").value=usr.email
+                    document.getElementById("cpf").value= usr.cpf ||1
+
+                    document.getElementById("cep").value=usr.cep ||1
+                    document.getElementById("tel").value=usr.phone || 1
+                    document.getElementById("rua").value=usr.address.rua || 1
+                    document.getElementById("Estado").value=usr.address.uf
+                    document.getElementById("bairro").value=usr.address.bairro
+                    document.getElementById("Cidade").value=usr.address.city
+                    document.getElementById("Numero").value=usr.address.num
+
+
+
+                }).catch(err => console.error(err));
+       },
+       methods: {
+           hasCookie(name) {
+                   const value = `; ${document.cookie}`;
+                   const parts = value.split(`; ${name}=`);
+                   if (parts.length === 2) return parts.pop().split(';').shift()
+
+                   return null;
+               },
+            UpdateProfile() {
+                let user = {
+                    name: [document.getElementById("name").value.trim(), document.getElementById("surname").value.trim()],
+                    country: document.getElementById("country").value.trim(),
+                    uf: document.getElementById("Estado").value.trim(),
+                    cep: document.getElementById("cep").value.trim(),
+                    cpf: document.getElementById("cpf").value.trim(),
+                    rua: document.getElementById("rua").value.trim(),
+                    num: document.getElementById("Numero").value.trim(),
+                    bairro: document.getElementById("bairro").value.trim(),
+                    city: document.getElementById("Cidade").value.trim(),
+                    tel: document.getElementById("tel").value.trim(),
+                    email: document.getElementById("mail").value.trim()
+
+                };
+                if (user.name.includes("") || !user.country || !user.uf || !user.cep || !user.cpf || !user.rua || !user.num || !user.bairro || !user.city) {
+                    let errorDiv = document.createElement("div");
+                    errorDiv.innerText = "Todos os campos devem estar completos.";
+                    errorDiv.style.color = "white"; // Texto branco
+                    errorDiv.style.backgroundColor = "red"; // Fundo vermelho
+                    errorDiv.style.marginTop = "20px";
+                    errorDiv.style.fontWeight = "bold";
+                    errorDiv.style.padding = "10px"; // Adiciona um pouco de padding
+                    errorDiv.style.textAlign = "center"; // Alinha o texto ao centro
+                    errorDiv.id = "error-message";
+
+                    let wrapper = document.querySelector(".wrapper");
+                        if (!document.getElementById("error-message")) {
+                            wrapper.insertAdjacentElement('afterend', errorDiv);
+                        }
+
+                }
+                else {
+                    let errorDiv = document.getElementById("error-message");
+                    if (errorDiv) {
+                        errorDiv.parentNode.removeChild(errorDiv);
+                    }
+                    axios.post('/update', {data:user}).then(res => {
+                        if(res.data=="ok"){
+                            let errorDiv = document.createElement("div");
+                            errorDiv.style.color = "white"; 
+                            errorDiv.style.marginTop = "20px";
+                            errorDiv.style.fontWeight = "bold";
+                            errorDiv.style.padding = "10px";
+                            errorDiv.style.textAlign = "center";
+                            errorDiv.id = "error-message";
+                            errorDiv.style.backgroundColor="#00ff00";
+                            errorDiv.innerText="Perfil atualizado com sucesso!"
+                            let wrapper = document.querySelector(".wrapper");
+                            if (!document.getElementById("error-message")) {
+                                wrapper.insertAdjacentElement('afterend', errorDiv);
+                            }
+                        }
+                    
+                }).catch(err => console.error(err));
+                }
+
+            }
+        }
+   })
+</script>
+</html>

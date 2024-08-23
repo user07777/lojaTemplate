@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loja - Registro</title>
+    <link href="register.css" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.7.14"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/1.2.2/axios.min.js"></script>
+</head>
+<body>
+<div id="app" class="container">
+    <div class="form-container sign-up-container">
+        <form @submit.prevent="register">
+            <h1>Criar conta</h1>
+            <input v-model="registerData.name" type="text" placeholder="Nome" />
+            <input v-model="registerData.email" type="email" placeholder="Email" />
+            <input v-model="registerData.password" type="password" placeholder="Senha" />
+            <button type="submit">Registrar</button>
+        </form>
+    </div>
+
+    <div class="form-container sign-in-container">
+        <form @submit.prevent="login">
+            <h1>Login</h1>
+            <input v-model="loginData.email" type="email" placeholder="Email" />
+            <input v-model="loginData.password" type="password" placeholder="Senha" />
+            <a href="/recover">Esqueceu sua senha?</a>
+            <button type="submit">Login</button>
+        </form>
+    </div>
+
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>Bem vindo de volta!</h1>
+                <p>Para se conectar por favor insira suas informações pessoais</p>
+                <button class="ghost" @click="togglePanel">Entrar</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Olá, amigo!</h1>
+                <p>Insira seus dados pessoais e comece sua jornada conosco</p>
+                <button class="ghost" @click="togglePanel">Sign Up</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    new Vue({
+        el: "#app",
+        data: {
+            registerData: { name: '', email: '', password: '' },
+            loginData: { email: '', password: '' }
+        },
+        methods: {
+            login() {
+                axios.post('/login', this.loginData).then(res => {
+                    console.log(res.data)
+                    if(res.data.includes("script")){
+                        window.location.href="/";
+                    }
+                }).catch(err => console.error(err));
+            },
+            register() {
+                console.log('Registering:', this.registerData);
+            },
+            togglePanel() {
+                this.$el.classList.toggle("right-panel-active");
+            }
+        }
+    });
+</script>
+</body>
+</html>
