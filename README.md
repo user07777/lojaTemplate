@@ -12,4 +12,8 @@ irei melhorar  esse projeto com o tempo.
 1  - > npm install  <br>
 2  - > node index.js <br>
 3- - > abra localhost:4444 no browser <br>
+
+ ## design
+
  
+![Screenshot_2](https://github.com/user-attachments/assets/075e7be6-7eb2-48d8-806f-cb735abb5601)
